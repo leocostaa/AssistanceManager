@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="60b5aee1560b45fba2f462027b397b6f" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="AssistanceManagerModel.Asset" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssistanceManagerModel.Assistance" Width="2" PointX="6.625" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssistanceManagerModel.AssistanceDetail" Width="1.5" PointX="6.875" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssistanceManagerModel.AssitanceStatus" Width="1.5" PointX="2.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssistanceManagerModel.Contract" Width="1.5" PointX="12.375" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssistanceManagerModel.ContractAssets" Width="1.5" PointX="9.625" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssistanceManagerModel.Customers" Width="1.5" PointX="10.125" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssistanceManagerModel.Priority" Width="1.5" PointX="2.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssistanceManagerModel.Process" Width="1.5" PointX="12.875" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssistanceManagerModel.Technicians" Width="1.5" PointX="15.625" PointY="2.75" IsExpanded="true" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__ContractA__Asset__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__Assistanc__Assis__797309D9" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__Assistanc__Custo__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__Assistanc__Prior__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__Assistanc__Statu__04E4BC85" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__Assistanc__Techn__7A672E12" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__Contract__Proces__6C190EBB" ManuallyRouted="true" >
+          <ConnectorPoint PointX="13.730229144293739" PointY="4.375" />
+          <ConnectorPoint PointX="13.673423584698467" PointY="4" />
+          <ConnectorPoint PointX="13.673423584698467" PointY="9.75" />
+          <ConnectorPoint PointX="13.378907187500001" PointY="9.75" />
+          <ConnectorPoint PointX="13.378907187500001" PointY="10.125" />
+        </AssociationConnector>
+        <AssociationConnector Association="AssistanceManagerModel.FK__Contract__Techni__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__ContractA__Contr__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__Process__Custome__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.FK__Process__Technic__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.AssistanceContract" ManuallyRouted="false" />
+        <AssociationConnector Association="AssistanceManagerModel.AssitanceAssets" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

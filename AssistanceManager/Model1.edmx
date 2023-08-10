@@ -1,0 +1,870 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AssistanceManagerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="AssetID" />
+          </Key>
+          <Property Name="AssetID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="600" />
+          <Property Name="Serialnumber" Type="varchar" MaxLength="600" />
+          <Property Name="Reference" Type="varchar" MaxLength="600" />
+        </EntityType>
+        <EntityType Name="Assistance">
+          <Key>
+            <PropertyRef Name="AssistanceID" />
+          </Key>
+          <Property Name="AssistanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateTime" Type="datetime" />
+          <Property Name="Report" Type="nvarchar" MaxLength="3000" />
+          <Property Name="Customer" Type="int" />
+          <Property Name="Priority" Type="varchar" MaxLength="200" />
+          <Property Name="Status" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="AssistanceContract">
+          <Key>
+            <PropertyRef Name="AssistanceID" />
+            <PropertyRef Name="ContractID" />
+          </Key>
+          <Property Name="AssistanceID" Type="int" Nullable="false" />
+          <Property Name="ContractID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssistanceDetail">
+          <Key>
+            <PropertyRef Name="AssistanceDetailID" />
+          </Key>
+          <Property Name="AssistanceDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssistanceID" Type="int" />
+          <Property Name="Technician" Type="int" />
+          <Property Name="Datetime" Type="datetime" />
+          <Property Name="Report" Type="nvarchar" MaxLength="3000" />
+        </EntityType>
+        <EntityType Name="AssitanceAssets">
+          <Key>
+            <PropertyRef Name="AssistanceID" />
+            <PropertyRef Name="AssetID" />
+          </Key>
+          <Property Name="AssistanceID" Type="int" Nullable="false" />
+          <Property Name="AssetID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AssitanceStatus">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="ContractID" />
+          </Key>
+          <Property Name="ContractID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Process" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="600" />
+          <Property Name="DateOfOpen" Type="datetime" />
+          <Property Name="DateOfClose" Type="datetime" />
+          <Property Name="Technician" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ContractAssets">
+          <Key>
+            <PropertyRef Name="ContractID" />
+            <PropertyRef Name="AssetID" />
+          </Key>
+          <Property Name="ContractID" Type="int" Nullable="false" />
+          <Property Name="AssetID" Type="int" Nullable="false" />
+          <Property Name="TimeOfAssistance" Type="decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="1000" />
+          <Property Name="Nif" Type="varchar" MaxLength="100" />
+          <Property Name="Contact" Type="varchar" MaxLength="100" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="Address" Type="varchar" MaxLength="200" />
+          <Property Name="City" Type="varchar" MaxLength="200" />
+          <Property Name="Extension" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Priority">
+          <Key>
+            <PropertyRef Name="Priority" />
+          </Key>
+          <Property Name="Priority" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Process">
+          <Key>
+            <PropertyRef Name="ProcessID" />
+          </Key>
+          <Property Name="ProcessID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Customer" Type="int" />
+          <Property Name="Description" Type="varchar" MaxLength="600" />
+          <Property Name="DateOfOpen" Type="datetime" />
+          <Property Name="Technician" Type="int" />
+        </EntityType>
+        <EntityType Name="Technicians">
+          <Key>
+            <PropertyRef Name="TechnicianID" />
+          </Key>
+          <Property Name="TechnicianID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="1000" />
+          <Property Name="Nif" Type="varchar" MaxLength="100" />
+          <Property Name="Contact" Type="varchar" MaxLength="100" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
+          <Property Name="Address" Type="varchar" MaxLength="200" />
+          <Property Name="City" Type="varchar" MaxLength="200" />
+          <Property Name="Extension" Type="varchar" MaxLength="100" />
+          <Property Name="Login" Type="varchar" MaxLength="150" />
+          <Property Name="Passwd" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <Association Name="FK__Assistanc__Assis__01142BA1">
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="1" />
+          <End Role="AssistanceContract" Type="Self.AssistanceContract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assistance">
+              <PropertyRef Name="AssistanceID" />
+            </Principal>
+            <Dependent Role="AssistanceContract">
+              <PropertyRef Name="AssistanceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Assis__797309D9">
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="0..1" />
+          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assistance">
+              <PropertyRef Name="AssistanceID" />
+            </Principal>
+            <Dependent Role="AssistanceDetail">
+              <PropertyRef Name="AssistanceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Contr__02084FDA">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
+          <End Role="AssistanceContract" Type="Self.AssistanceContract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractID" />
+            </Principal>
+            <Dependent Role="AssistanceContract">
+              <PropertyRef Name="ContractID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Custo__75A278F5">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Assistance">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Prior__76969D2E">
+          <End Role="Priority" Type="Self.Priority" Multiplicity="0..1" />
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Priority">
+              <PropertyRef Name="Priority" />
+            </Principal>
+            <Dependent Role="Assistance">
+              <PropertyRef Name="Priority" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Statu__04E4BC85">
+          <End Role="AssitanceStatus" Type="Self.AssitanceStatus" Multiplicity="0..1" />
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssitanceStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="Assistance">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Techn__7A672E12">
+          <End Role="Technicians" Type="Self.Technicians" Multiplicity="0..1" />
+          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technicians">
+              <PropertyRef Name="TechnicianID" />
+            </Principal>
+            <Dependent Role="AssistanceDetail">
+              <PropertyRef Name="Technician" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assitance__Asset__7E37BEF6">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
+          <End Role="AssitanceAssets" Type="Self.AssitanceAssets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="AssetID" />
+            </Principal>
+            <Dependent Role="AssitanceAssets">
+              <PropertyRef Name="AssetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assitance__Assis__7D439ABD">
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="1" />
+          <End Role="AssitanceAssets" Type="Self.AssitanceAssets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assistance">
+              <PropertyRef Name="AssistanceID" />
+            </Principal>
+            <Dependent Role="AssitanceAssets">
+              <PropertyRef Name="AssistanceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contract__Proces__6C190EBB">
+          <End Role="Process" Type="Self.Process" Multiplicity="0..1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Process">
+              <PropertyRef Name="ProcessID" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="Process" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contract__Techni__6D0D32F4">
+          <End Role="Technicians" Type="Self.Technicians" Multiplicity="0..1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technicians">
+              <PropertyRef Name="TechnicianID" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="Technician" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ContractA__Asset__70DDC3D8">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
+          <End Role="ContractAssets" Type="Self.ContractAssets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="AssetID" />
+            </Principal>
+            <Dependent Role="ContractAssets">
+              <PropertyRef Name="AssetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ContractA__Contr__6FE99F9F">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
+          <End Role="ContractAssets" Type="Self.ContractAssets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractID" />
+            </Principal>
+            <Dependent Role="ContractAssets">
+              <PropertyRef Name="ContractID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Process__Custome__68487DD7">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Process" Type="Self.Process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Process">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Process__Technic__693CA210">
+          <End Role="Technicians" Type="Self.Technicians" Multiplicity="0..1" />
+          <End Role="Process" Type="Self.Process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technicians">
+              <PropertyRef Name="TechnicianID" />
+            </Principal>
+            <Dependent Role="Process">
+              <PropertyRef Name="Technician" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AssistanceManagerModelStoreContainer">
+          <EntitySet Name="Asset" EntityType="Self.Asset" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Assistance" EntityType="Self.Assistance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssistanceContract" EntityType="Self.AssistanceContract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssistanceDetail" EntityType="Self.AssistanceDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssitanceAssets" EntityType="Self.AssitanceAssets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AssitanceStatus" EntityType="Self.AssitanceStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractAssets" EntityType="Self.ContractAssets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Priority" EntityType="Self.Priority" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Technicians" EntityType="Self.Technicians" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Assistanc__Assis__01142BA1" Association="Self.FK__Assistanc__Assis__01142BA1">
+            <End Role="Assistance" EntitySet="Assistance" />
+            <End Role="AssistanceContract" EntitySet="AssistanceContract" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Assis__797309D9" Association="Self.FK__Assistanc__Assis__797309D9">
+            <End Role="Assistance" EntitySet="Assistance" />
+            <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Contr__02084FDA" Association="Self.FK__Assistanc__Contr__02084FDA">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="AssistanceContract" EntitySet="AssistanceContract" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Custo__75A278F5" Association="Self.FK__Assistanc__Custo__75A278F5">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Assistance" EntitySet="Assistance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Prior__76969D2E" Association="Self.FK__Assistanc__Prior__76969D2E">
+            <End Role="Priority" EntitySet="Priority" />
+            <End Role="Assistance" EntitySet="Assistance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Statu__04E4BC85" Association="Self.FK__Assistanc__Statu__04E4BC85">
+            <End Role="AssitanceStatus" EntitySet="AssitanceStatus" />
+            <End Role="Assistance" EntitySet="Assistance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Techn__7A672E12" Association="Self.FK__Assistanc__Techn__7A672E12">
+            <End Role="Technicians" EntitySet="Technicians" />
+            <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assitance__Asset__7E37BEF6" Association="Self.FK__Assitance__Asset__7E37BEF6">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="AssitanceAssets" EntitySet="AssitanceAssets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assitance__Assis__7D439ABD" Association="Self.FK__Assitance__Assis__7D439ABD">
+            <End Role="Assistance" EntitySet="Assistance" />
+            <End Role="AssitanceAssets" EntitySet="AssitanceAssets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contract__Proces__6C190EBB" Association="Self.FK__Contract__Proces__6C190EBB">
+            <End Role="Process" EntitySet="Process" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contract__Techni__6D0D32F4" Association="Self.FK__Contract__Techni__6D0D32F4">
+            <End Role="Technicians" EntitySet="Technicians" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ContractA__Asset__70DDC3D8" Association="Self.FK__ContractA__Asset__70DDC3D8">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="ContractAssets" EntitySet="ContractAssets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ContractA__Contr__6FE99F9F" Association="Self.FK__ContractA__Contr__6FE99F9F">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="ContractAssets" EntitySet="ContractAssets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Process__Custome__68487DD7" Association="Self.FK__Process__Custome__68487DD7">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Process" EntitySet="Process" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Process__Technic__693CA210" Association="Self.FK__Process__Technic__693CA210">
+            <End Role="Technicians" EntitySet="Technicians" />
+            <End Role="Process" EntitySet="Process" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AssistanceManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="AssetID" />
+          </Key>
+          <Property Name="AssetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
+          <Property Name="Serialnumber" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
+          <Property Name="Reference" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ContractAssets" Relationship="Self.FK__ContractA__Asset__70DDC3D8" FromRole="Asset" ToRole="ContractAssets" />
+          <NavigationProperty Name="Assistance" Relationship="Self.AssitanceAssets" FromRole="Asset" ToRole="Assistance" />
+        </EntityType>
+        <EntityType Name="Assistance">
+          <Key>
+            <PropertyRef Name="AssistanceID" />
+          </Key>
+          <Property Name="AssistanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+          <Property Name="Report" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="Customer" Type="Int32" />
+          <Property Name="Priority" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AssistanceDetail" Relationship="Self.FK__Assistanc__Assis__797309D9" FromRole="Assistance" ToRole="AssistanceDetail" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK__Assistanc__Custo__75A278F5" FromRole="Assistance" ToRole="Customers" />
+          <NavigationProperty Name="Priority1" Relationship="Self.FK__Assistanc__Prior__76969D2E" FromRole="Assistance" ToRole="Priority" />
+          <NavigationProperty Name="AssitanceStatus" Relationship="Self.FK__Assistanc__Statu__04E4BC85" FromRole="Assistance" ToRole="AssitanceStatus" />
+          <NavigationProperty Name="Contract" Relationship="Self.AssistanceContract" FromRole="Assistance" ToRole="Contract" />
+          <NavigationProperty Name="Asset" Relationship="Self.AssitanceAssets" FromRole="Assistance" ToRole="Asset" />
+        </EntityType>
+        <EntityType Name="AssistanceDetail">
+          <Key>
+            <PropertyRef Name="AssistanceDetailID" />
+          </Key>
+          <Property Name="AssistanceDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssistanceID" Type="Int32" />
+          <Property Name="Technician" Type="Int32" />
+          <Property Name="Datetime" Type="DateTime" Precision="3" />
+          <Property Name="Report" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Assis__797309D9" FromRole="AssistanceDetail" ToRole="Assistance" />
+          <NavigationProperty Name="Technicians" Relationship="Self.FK__Assistanc__Techn__7A672E12" FromRole="AssistanceDetail" ToRole="Technicians" />
+        </EntityType>
+        <EntityType Name="AssitanceStatus">
+          <Key>
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Statu__04E4BC85" FromRole="AssitanceStatus" ToRole="Assistance" />
+        </EntityType>
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="ContractID" />
+          </Key>
+          <Property Name="ContractID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Process" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
+          <Property Name="DateOfOpen" Type="DateTime" Precision="3" />
+          <Property Name="DateOfClose" Type="DateTime" Precision="3" />
+          <Property Name="Technician" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Process1" Relationship="Self.FK__Contract__Proces__6C190EBB" FromRole="Contract" ToRole="Process" />
+          <NavigationProperty Name="Technicians" Relationship="Self.FK__Contract__Techni__6D0D32F4" FromRole="Contract" ToRole="Technicians" />
+          <NavigationProperty Name="ContractAssets" Relationship="Self.FK__ContractA__Contr__6FE99F9F" FromRole="Contract" ToRole="ContractAssets" />
+          <NavigationProperty Name="Assistance" Relationship="Self.AssistanceContract" FromRole="Contract" ToRole="Assistance" />
+        </EntityType>
+        <EntityType Name="ContractAssets">
+          <Key>
+            <PropertyRef Name="ContractID" />
+            <PropertyRef Name="AssetID" />
+          </Key>
+          <Property Name="ContractID" Type="Int32" Nullable="false" />
+          <Property Name="AssetID" Type="Int32" Nullable="false" />
+          <Property Name="TimeOfAssistance" Type="Decimal" Precision="18" Scale="4" />
+          <NavigationProperty Name="Asset" Relationship="Self.FK__ContractA__Asset__70DDC3D8" FromRole="ContractAssets" ToRole="Asset" />
+          <NavigationProperty Name="Contract" Relationship="Self.FK__ContractA__Contr__6FE99F9F" FromRole="ContractAssets" ToRole="Contract" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Nif" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Custo__75A278F5" FromRole="Customers" ToRole="Assistance" />
+          <NavigationProperty Name="Process" Relationship="Self.FK__Process__Custome__68487DD7" FromRole="Customers" ToRole="Process" />
+        </EntityType>
+        <EntityType Name="Priority">
+          <Key>
+            <PropertyRef Name="Priority1" />
+          </Key>
+          <Property Name="Priority1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Prior__76969D2E" FromRole="Priority" ToRole="Assistance" />
+        </EntityType>
+        <EntityType Name="Process">
+          <Key>
+            <PropertyRef Name="ProcessID" />
+          </Key>
+          <Property Name="ProcessID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Customer" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
+          <Property Name="DateOfOpen" Type="DateTime" Precision="3" />
+          <Property Name="Technician" Type="Int32" />
+          <NavigationProperty Name="Contract" Relationship="Self.FK__Contract__Proces__6C190EBB" FromRole="Process" ToRole="Contract" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK__Process__Custome__68487DD7" FromRole="Process" ToRole="Customers" />
+          <NavigationProperty Name="Technicians" Relationship="Self.FK__Process__Technic__693CA210" FromRole="Process" ToRole="Technicians" />
+        </EntityType>
+        <EntityType Name="Technicians">
+          <Key>
+            <PropertyRef Name="TechnicianID" />
+          </Key>
+          <Property Name="TechnicianID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Nif" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Login" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Passwd" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AssistanceDetail" Relationship="Self.FK__Assistanc__Techn__7A672E12" FromRole="Technicians" ToRole="AssistanceDetail" />
+          <NavigationProperty Name="Contract" Relationship="Self.FK__Contract__Techni__6D0D32F4" FromRole="Technicians" ToRole="Contract" />
+          <NavigationProperty Name="Process" Relationship="Self.FK__Process__Technic__693CA210" FromRole="Technicians" ToRole="Process" />
+        </EntityType>
+        <Association Name="FK__ContractA__Asset__70DDC3D8">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
+          <End Role="ContractAssets" Type="Self.ContractAssets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="AssetID" />
+            </Principal>
+            <Dependent Role="ContractAssets">
+              <PropertyRef Name="AssetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Assis__797309D9">
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="0..1" />
+          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assistance">
+              <PropertyRef Name="AssistanceID" />
+            </Principal>
+            <Dependent Role="AssistanceDetail">
+              <PropertyRef Name="AssistanceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Custo__75A278F5">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Assistance">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Prior__76969D2E">
+          <End Role="Priority" Type="Self.Priority" Multiplicity="0..1" />
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Priority">
+              <PropertyRef Name="Priority1" />
+            </Principal>
+            <Dependent Role="Assistance">
+              <PropertyRef Name="Priority" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Statu__04E4BC85">
+          <End Role="AssitanceStatus" Type="Self.AssitanceStatus" Multiplicity="0..1" />
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AssitanceStatus">
+              <PropertyRef Name="Status" />
+            </Principal>
+            <Dependent Role="Assistance">
+              <PropertyRef Name="Status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Techn__7A672E12">
+          <End Role="Technicians" Type="Self.Technicians" Multiplicity="0..1" />
+          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technicians">
+              <PropertyRef Name="TechnicianID" />
+            </Principal>
+            <Dependent Role="AssistanceDetail">
+              <PropertyRef Name="Technician" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contract__Proces__6C190EBB">
+          <End Role="Process" Type="Self.Process" Multiplicity="0..1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Process">
+              <PropertyRef Name="ProcessID" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="Process" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contract__Techni__6D0D32F4">
+          <End Role="Technicians" Type="Self.Technicians" Multiplicity="0..1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technicians">
+              <PropertyRef Name="TechnicianID" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="Technician" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ContractA__Contr__6FE99F9F">
+          <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
+          <End Role="ContractAssets" Type="Self.ContractAssets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contract">
+              <PropertyRef Name="ContractID" />
+            </Principal>
+            <Dependent Role="ContractAssets">
+              <PropertyRef Name="ContractID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Process__Custome__68487DD7">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Process" Type="Self.Process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Process">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Process__Technic__693CA210">
+          <End Role="Technicians" Type="Self.Technicians" Multiplicity="0..1" />
+          <End Role="Process" Type="Self.Process" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Technicians">
+              <PropertyRef Name="TechnicianID" />
+            </Principal>
+            <Dependent Role="Process">
+              <PropertyRef Name="Technician" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AssistanceContract">
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+        </Association>
+        <Association Name="AssitanceAssets">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="AssistanceManagerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Asset" EntityType="Self.Asset" />
+          <EntitySet Name="Assistance" EntityType="Self.Assistance" />
+          <EntitySet Name="AssistanceDetail" EntityType="Self.AssistanceDetail" />
+          <EntitySet Name="AssitanceStatus" EntityType="Self.AssitanceStatus" />
+          <EntitySet Name="Contract" EntityType="Self.Contract" />
+          <EntitySet Name="ContractAssets" EntityType="Self.ContractAssets" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" />
+          <EntitySet Name="Priority" EntityType="Self.Priority" />
+          <EntitySet Name="Process" EntityType="Self.Process" />
+          <EntitySet Name="Technicians" EntityType="Self.Technicians" />
+          <AssociationSet Name="FK__ContractA__Asset__70DDC3D8" Association="Self.FK__ContractA__Asset__70DDC3D8">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="ContractAssets" EntitySet="ContractAssets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Assis__797309D9" Association="Self.FK__Assistanc__Assis__797309D9">
+            <End Role="Assistance" EntitySet="Assistance" />
+            <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Custo__75A278F5" Association="Self.FK__Assistanc__Custo__75A278F5">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Assistance" EntitySet="Assistance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Prior__76969D2E" Association="Self.FK__Assistanc__Prior__76969D2E">
+            <End Role="Priority" EntitySet="Priority" />
+            <End Role="Assistance" EntitySet="Assistance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Statu__04E4BC85" Association="Self.FK__Assistanc__Statu__04E4BC85">
+            <End Role="AssitanceStatus" EntitySet="AssitanceStatus" />
+            <End Role="Assistance" EntitySet="Assistance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Techn__7A672E12" Association="Self.FK__Assistanc__Techn__7A672E12">
+            <End Role="Technicians" EntitySet="Technicians" />
+            <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contract__Proces__6C190EBB" Association="Self.FK__Contract__Proces__6C190EBB">
+            <End Role="Process" EntitySet="Process" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contract__Techni__6D0D32F4" Association="Self.FK__Contract__Techni__6D0D32F4">
+            <End Role="Technicians" EntitySet="Technicians" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ContractA__Contr__6FE99F9F" Association="Self.FK__ContractA__Contr__6FE99F9F">
+            <End Role="Contract" EntitySet="Contract" />
+            <End Role="ContractAssets" EntitySet="ContractAssets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Process__Custome__68487DD7" Association="Self.FK__Process__Custome__68487DD7">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Process" EntitySet="Process" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Process__Technic__693CA210" Association="Self.FK__Process__Technic__693CA210">
+            <End Role="Technicians" EntitySet="Technicians" />
+            <End Role="Process" EntitySet="Process" />
+          </AssociationSet>
+          <AssociationSet Name="AssistanceContract" Association="Self.AssistanceContract">
+            <End Role="Assistance" EntitySet="Assistance" />
+            <End Role="Contract" EntitySet="Contract" />
+          </AssociationSet>
+          <AssociationSet Name="AssitanceAssets" Association="Self.AssitanceAssets">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="Assistance" EntitySet="Assistance" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AssistanceManagerModelStoreContainer" CdmEntityContainer="AssistanceManagerEntities">
+          <EntitySetMapping Name="Asset">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.Asset">
+              <MappingFragment StoreEntitySet="Asset">
+                <ScalarProperty Name="AssetID" ColumnName="AssetID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Serialnumber" ColumnName="Serialnumber" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Assistance">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.Assistance">
+              <MappingFragment StoreEntitySet="Assistance">
+                <ScalarProperty Name="AssistanceID" ColumnName="AssistanceID" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Report" ColumnName="Report" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssistanceDetail">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.AssistanceDetail">
+              <MappingFragment StoreEntitySet="AssistanceDetail">
+                <ScalarProperty Name="AssistanceDetailID" ColumnName="AssistanceDetailID" />
+                <ScalarProperty Name="AssistanceID" ColumnName="AssistanceID" />
+                <ScalarProperty Name="Technician" ColumnName="Technician" />
+                <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+                <ScalarProperty Name="Report" ColumnName="Report" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssitanceStatus">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.AssitanceStatus">
+              <MappingFragment StoreEntitySet="AssitanceStatus">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contract">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.Contract">
+              <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="ContractID" ColumnName="ContractID" />
+                <ScalarProperty Name="Process" ColumnName="Process" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateOfOpen" ColumnName="DateOfOpen" />
+                <ScalarProperty Name="DateOfClose" ColumnName="DateOfClose" />
+                <ScalarProperty Name="Technician" ColumnName="Technician" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractAssets">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.ContractAssets">
+              <MappingFragment StoreEntitySet="ContractAssets">
+                <ScalarProperty Name="ContractID" ColumnName="ContractID" />
+                <ScalarProperty Name="AssetID" ColumnName="AssetID" />
+                <ScalarProperty Name="TimeOfAssistance" ColumnName="TimeOfAssistance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.Customers">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Nif" ColumnName="Nif" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Priority">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.Priority">
+              <MappingFragment StoreEntitySet="Priority">
+                <ScalarProperty Name="Priority1" ColumnName="Priority" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Process">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.Process">
+              <MappingFragment StoreEntitySet="Process">
+                <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateOfOpen" ColumnName="DateOfOpen" />
+                <ScalarProperty Name="Technician" ColumnName="Technician" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Technicians">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.Technicians">
+              <MappingFragment StoreEntitySet="Technicians">
+                <ScalarProperty Name="TechnicianID" ColumnName="TechnicianID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Nif" ColumnName="Nif" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Passwd" ColumnName="Passwd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AssistanceContract" TypeName="AssistanceManagerModel.AssistanceContract" StoreEntitySet="AssistanceContract">
+            <EndProperty Name="Assistance">
+              <ScalarProperty Name="AssistanceID" ColumnName="AssistanceID" />
+            </EndProperty>
+            <EndProperty Name="Contract">
+              <ScalarProperty Name="ContractID" ColumnName="ContractID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="AssitanceAssets" TypeName="AssistanceManagerModel.AssitanceAssets" StoreEntitySet="AssitanceAssets">
+            <EndProperty Name="Asset">
+              <ScalarProperty Name="AssetID" ColumnName="AssetID" />
+            </EndProperty>
+            <EndProperty Name="Assistance">
+              <ScalarProperty Name="AssistanceID" ColumnName="AssistanceID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
