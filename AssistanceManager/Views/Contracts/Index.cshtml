@@ -1,0 +1,63 @@
+﻿@model IEnumerable<AssistanceManager.Contract>
+
+@{
+    ViewBag.Title = "Contratos";
+}
+
+<h2>Contratos</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfOpen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfClose)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Process1.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Technicians.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfOpen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateOfClose)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Process1.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Technicians.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ContractID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ContractID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ContractID })
+        </td>
+    </tr>
+}
+
+</table>

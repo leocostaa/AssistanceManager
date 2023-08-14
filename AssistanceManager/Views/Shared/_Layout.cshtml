@@ -6,32 +6,67 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+  <style> 
+    body {
+        font-family: "Lato", sans-serif;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 200px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .sidenav a {
+        padding: 6px 6px 6px 32px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+    }
+    
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .main {
+         margin-left: 200px; 
+    }
+    .spaced{
+        font-size: 100px;
+        padding-bottom: 200px;
+        
+    }
+
+
+  </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "Test1", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Test2", "Home")</li>
-                </ul>
-            </div>
+    <div class="sidenav">
+        <div class="spaced">
+            @Html.ActionLink("Assistance Manager", "Index", "Home")
         </div>
+        
+        @Html.ActionLink("Assets", "Index", "Assets")
+        
+        @Html.ActionLink("Pedidos de Assistência", "Index", "Assistances")
+        
+        @Html.ActionLink("Contratos", "Index", "Contracts")
     </div>
+        
+    
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Alves Inovação </p>
         </footer>
     </div>
 

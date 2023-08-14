@@ -1,0 +1,58 @@
+﻿@model AssistanceManager.Assistance
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Assistance</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Report)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Report)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customers.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customers.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Priority1.Priority1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Priority1.Priority1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssitanceStatus.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssitanceStatus.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AssistanceID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
