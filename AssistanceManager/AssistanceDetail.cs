@@ -16,11 +16,13 @@ namespace AssistanceManager
     {
         public int AssistanceDetailID { get; set; }
         public Nullable<int> AssistanceID { get; set; }
-        public Nullable<int> Technician { get; set; }
+        public Nullable<int> Login { get; set; }
         public Nullable<System.DateTime> Datetime { get; set; }
         public string Report { get; set; }
+        public string Status { get; set; }
     
         public virtual Assistance Assistance { get; set; }
-        public virtual Technicians Technicians { get; set; }
+        public virtual SU01_Login SU01_Login { get; set; }
+        public virtual AssitanceStatus AssitanceStatus { get; set; }
     }
 }

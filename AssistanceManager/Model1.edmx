@@ -20,10 +20,8 @@
           </Key>
           <Property Name="AssistanceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DateTime" Type="datetime" />
-          <Property Name="Report" Type="nvarchar" MaxLength="3000" />
           <Property Name="Customer" Type="int" />
           <Property Name="Priority" Type="varchar" MaxLength="200" />
-          <Property Name="Status" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="AssistanceContract">
           <Key>
@@ -39,9 +37,10 @@
           </Key>
           <Property Name="AssistanceDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AssistanceID" Type="int" />
-          <Property Name="Technician" Type="int" />
+          <Property Name="Login" Type="int" />
           <Property Name="Datetime" Type="datetime" />
           <Property Name="Report" Type="nvarchar" MaxLength="3000" />
+          <Property Name="Status" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="AssitanceAssets">
           <Key>
@@ -107,6 +106,50 @@
           <Property Name="DateOfOpen" Type="datetime" />
           <Property Name="Technician" Type="int" />
         </EntityType>
+        <EntityType Name="SU00_LoginType">
+          <Key>
+            <PropertyRef Name="LoginType" />
+          </Key>
+          <Property Name="LoginType" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SU01_Login">
+          <Key>
+            <PropertyRef Name="LoginID" />
+          </Key>
+          <Property Name="LoginID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginType" Type="varchar" MaxLength="100" />
+          <Property Name="LoginUsername" Type="varchar" MaxLength="500" />
+          <Property Name="LoginPassword" Type="varchar" MaxLength="500" />
+          <Property Name="LoginPincode" Type="varchar" MaxLength="50" />
+          <Property Name="LoginDateEnd" Type="datetime" />
+          <Property Name="LoginEnabled" Type="int" />
+          <Property Name="LoginDisplayName" Type="varchar" MaxLength="500" />
+          <Property Name="LoginEmail" Type="varchar" MaxLength="500" />
+          <Property Name="LoginCellPhone" Type="varchar" MaxLength="500" />
+          <Property Name="LoginJobPosition" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="SU24_Authorizations">
+          <Key>
+            <PropertyRef Name="AuthTransaction" />
+          </Key>
+          <Property Name="AuthTransaction" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AuthDescription" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="SU25_Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleDescription" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="SU26_RoleAuthorizations">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="AuthTransaction" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="AuthTransaction" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="Technicians">
           <Key>
             <PropertyRef Name="TechnicianID" />
@@ -119,22 +162,9 @@
           <Property Name="Address" Type="varchar" MaxLength="200" />
           <Property Name="City" Type="varchar" MaxLength="200" />
           <Property Name="Extension" Type="varchar" MaxLength="100" />
-          <Property Name="Login" Type="varchar" MaxLength="150" />
-          <Property Name="Passwd" Type="varchar" MaxLength="150" />
+          <Property Name="LoginID" Type="int" />
         </EntityType>
-        <Association Name="FK__Assistanc__Assis__01142BA1">
-          <End Role="Assistance" Type="Self.Assistance" Multiplicity="1" />
-          <End Role="AssistanceContract" Type="Self.AssistanceContract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Assistance">
-              <PropertyRef Name="AssistanceID" />
-            </Principal>
-            <Dependent Role="AssistanceContract">
-              <PropertyRef Name="AssistanceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Assistanc__Assis__797309D9">
+        <Association Name="FK__Assistanc__Assis__2DE6D218">
           <End Role="Assistance" Type="Self.Assistance" Multiplicity="0..1" />
           <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -146,7 +176,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assistanc__Contr__02084FDA">
+        <Association Name="FK__Assistanc__Assis__367C1819">
+          <End Role="Assistance" Type="Self.Assistance" Multiplicity="1" />
+          <End Role="AssistanceContract" Type="Self.AssistanceContract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Assistance">
+              <PropertyRef Name="AssistanceID" />
+            </Principal>
+            <Dependent Role="AssistanceContract">
+              <PropertyRef Name="AssistanceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Contr__37703C52">
           <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
           <End Role="AssistanceContract" Type="Self.AssistanceContract" Multiplicity="*" />
           <ReferentialConstraint>
@@ -158,7 +200,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assistanc__Custo__75A278F5">
+        <Association Name="FK__Assistanc__Custo__2A164134">
           <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
           <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -170,7 +212,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assistanc__Prior__76969D2E">
+        <Association Name="FK__Assistanc__Login__2EDAF651">
+          <End Role="SU01_Login" Type="Self.SU01_Login" Multiplicity="0..1" />
+          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SU01_Login">
+              <PropertyRef Name="LoginID" />
+            </Principal>
+            <Dependent Role="AssistanceDetail">
+              <PropertyRef Name="Login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Prior__2B0A656D">
           <End Role="Priority" Type="Self.Priority" Multiplicity="0..1" />
           <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -182,31 +236,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assistanc__Statu__04E4BC85">
+        <Association Name="FK__Assistanc__Statu__2FCF1A8A">
           <End Role="AssitanceStatus" Type="Self.AssitanceStatus" Multiplicity="0..1" />
-          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AssitanceStatus">
               <PropertyRef Name="Status" />
             </Principal>
-            <Dependent Role="Assistance">
+            <Dependent Role="AssistanceDetail">
               <PropertyRef Name="Status" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assistanc__Techn__7A672E12">
-          <End Role="Technicians" Type="Self.Technicians" Multiplicity="0..1" />
-          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Technicians">
-              <PropertyRef Name="TechnicianID" />
-            </Principal>
-            <Dependent Role="AssistanceDetail">
-              <PropertyRef Name="Technician" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Assitance__Asset__7E37BEF6">
+        <Association Name="FK__Assitance__Asset__339FAB6E">
           <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
           <End Role="AssitanceAssets" Type="Self.AssitanceAssets" Multiplicity="*" />
           <ReferentialConstraint>
@@ -218,7 +260,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assitance__Assis__7D439ABD">
+        <Association Name="FK__Assitance__Assis__32AB8735">
           <End Role="Assistance" Type="Self.Assistance" Multiplicity="1" />
           <End Role="AssitanceAssets" Type="Self.AssitanceAssets" Multiplicity="*" />
           <ReferentialConstraint>
@@ -302,6 +344,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__SU01_Logi__Login__17F790F9">
+          <End Role="SU00_LoginType" Type="Self.SU00_LoginType" Multiplicity="0..1" />
+          <End Role="SU01_Login" Type="Self.SU01_Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SU00_LoginType">
+              <PropertyRef Name="LoginType" />
+            </Principal>
+            <Dependent Role="SU01_Login">
+              <PropertyRef Name="LoginType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SU26_Role__AuthT__1F98B2C1">
+          <End Role="SU24_Authorizations" Type="Self.SU24_Authorizations" Multiplicity="1" />
+          <End Role="SU26_RoleAuthorizations" Type="Self.SU26_RoleAuthorizations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SU24_Authorizations">
+              <PropertyRef Name="AuthTransaction" />
+            </Principal>
+            <Dependent Role="SU26_RoleAuthorizations">
+              <PropertyRef Name="AuthTransaction" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SU26_Role__RoleI__1EA48E88">
+          <End Role="SU25_Roles" Type="Self.SU25_Roles" Multiplicity="1" />
+          <End Role="SU26_RoleAuthorizations" Type="Self.SU26_RoleAuthorizations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SU25_Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="SU26_RoleAuthorizations">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Technicia__Login__208CD6FA">
+          <End Role="SU01_Login" Type="Self.SU01_Login" Multiplicity="0..1" />
+          <End Role="Technicians" Type="Self.Technicians" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SU01_Login">
+              <PropertyRef Name="LoginID" />
+            </Principal>
+            <Dependent Role="Technicians">
+              <PropertyRef Name="LoginID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="AssistanceManagerModelStoreContainer">
           <EntitySet Name="Asset" EntityType="Self.Asset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Assistance" EntityType="Self.Assistance" Schema="dbo" store:Type="Tables" />
@@ -314,40 +404,45 @@
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Priority" EntityType="Self.Priority" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SU00_LoginType" EntityType="Self.SU00_LoginType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SU01_Login" EntityType="Self.SU01_Login" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SU24_Authorizations" EntityType="Self.SU24_Authorizations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SU25_Roles" EntityType="Self.SU25_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SU26_RoleAuthorizations" EntityType="Self.SU26_RoleAuthorizations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Technicians" EntityType="Self.Technicians" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Assistanc__Assis__01142BA1" Association="Self.FK__Assistanc__Assis__01142BA1">
-            <End Role="Assistance" EntitySet="Assistance" />
-            <End Role="AssistanceContract" EntitySet="AssistanceContract" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Assis__797309D9" Association="Self.FK__Assistanc__Assis__797309D9">
+          <AssociationSet Name="FK__Assistanc__Assis__2DE6D218" Association="Self.FK__Assistanc__Assis__2DE6D218">
             <End Role="Assistance" EntitySet="Assistance" />
             <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Contr__02084FDA" Association="Self.FK__Assistanc__Contr__02084FDA">
+          <AssociationSet Name="FK__Assistanc__Assis__367C1819" Association="Self.FK__Assistanc__Assis__367C1819">
+            <End Role="Assistance" EntitySet="Assistance" />
+            <End Role="AssistanceContract" EntitySet="AssistanceContract" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Contr__37703C52" Association="Self.FK__Assistanc__Contr__37703C52">
             <End Role="Contract" EntitySet="Contract" />
             <End Role="AssistanceContract" EntitySet="AssistanceContract" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Custo__75A278F5" Association="Self.FK__Assistanc__Custo__75A278F5">
+          <AssociationSet Name="FK__Assistanc__Custo__2A164134" Association="Self.FK__Assistanc__Custo__2A164134">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Assistance" EntitySet="Assistance" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Prior__76969D2E" Association="Self.FK__Assistanc__Prior__76969D2E">
+          <AssociationSet Name="FK__Assistanc__Login__2EDAF651" Association="Self.FK__Assistanc__Login__2EDAF651">
+            <End Role="SU01_Login" EntitySet="SU01_Login" />
+            <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Assistanc__Prior__2B0A656D" Association="Self.FK__Assistanc__Prior__2B0A656D">
             <End Role="Priority" EntitySet="Priority" />
             <End Role="Assistance" EntitySet="Assistance" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Statu__04E4BC85" Association="Self.FK__Assistanc__Statu__04E4BC85">
+          <AssociationSet Name="FK__Assistanc__Statu__2FCF1A8A" Association="Self.FK__Assistanc__Statu__2FCF1A8A">
             <End Role="AssitanceStatus" EntitySet="AssitanceStatus" />
-            <End Role="Assistance" EntitySet="Assistance" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Techn__7A672E12" Association="Self.FK__Assistanc__Techn__7A672E12">
-            <End Role="Technicians" EntitySet="Technicians" />
             <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assitance__Asset__7E37BEF6" Association="Self.FK__Assitance__Asset__7E37BEF6">
+          <AssociationSet Name="FK__Assitance__Asset__339FAB6E" Association="Self.FK__Assitance__Asset__339FAB6E">
             <End Role="Asset" EntitySet="Asset" />
             <End Role="AssitanceAssets" EntitySet="AssitanceAssets" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assitance__Assis__7D439ABD" Association="Self.FK__Assitance__Assis__7D439ABD">
+          <AssociationSet Name="FK__Assitance__Assis__32AB8735" Association="Self.FK__Assitance__Assis__32AB8735">
             <End Role="Assistance" EntitySet="Assistance" />
             <End Role="AssitanceAssets" EntitySet="AssitanceAssets" />
           </AssociationSet>
@@ -375,6 +470,22 @@
             <End Role="Technicians" EntitySet="Technicians" />
             <End Role="Process" EntitySet="Process" />
           </AssociationSet>
+          <AssociationSet Name="FK__SU01_Logi__Login__17F790F9" Association="Self.FK__SU01_Logi__Login__17F790F9">
+            <End Role="SU00_LoginType" EntitySet="SU00_LoginType" />
+            <End Role="SU01_Login" EntitySet="SU01_Login" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SU26_Role__AuthT__1F98B2C1" Association="Self.FK__SU26_Role__AuthT__1F98B2C1">
+            <End Role="SU24_Authorizations" EntitySet="SU24_Authorizations" />
+            <End Role="SU26_RoleAuthorizations" EntitySet="SU26_RoleAuthorizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SU26_Role__RoleI__1EA48E88" Association="Self.FK__SU26_Role__RoleI__1EA48E88">
+            <End Role="SU25_Roles" EntitySet="SU25_Roles" />
+            <End Role="SU26_RoleAuthorizations" EntitySet="SU26_RoleAuthorizations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Technicia__Login__208CD6FA" Association="Self.FK__Technicia__Login__208CD6FA">
+            <End Role="SU01_Login" EntitySet="SU01_Login" />
+            <End Role="Technicians" EntitySet="Technicians" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -398,14 +509,11 @@
           </Key>
           <Property Name="AssistanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DateTime" Type="DateTime" Precision="3" />
-          <Property Name="Report" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
           <Property Name="Customer" Type="Int32" />
           <Property Name="Priority" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="AssistanceDetail" Relationship="Self.FK__Assistanc__Assis__797309D9" FromRole="Assistance" ToRole="AssistanceDetail" />
-          <NavigationProperty Name="Customers" Relationship="Self.FK__Assistanc__Custo__75A278F5" FromRole="Assistance" ToRole="Customers" />
-          <NavigationProperty Name="Priority1" Relationship="Self.FK__Assistanc__Prior__76969D2E" FromRole="Assistance" ToRole="Priority" />
-          <NavigationProperty Name="AssitanceStatus" Relationship="Self.FK__Assistanc__Statu__04E4BC85" FromRole="Assistance" ToRole="AssitanceStatus" />
+          <NavigationProperty Name="AssistanceDetail" Relationship="Self.FK__Assistanc__Assis__2DE6D218" FromRole="Assistance" ToRole="AssistanceDetail" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK__Assistanc__Custo__2A164134" FromRole="Assistance" ToRole="Customers" />
+          <NavigationProperty Name="Priority1" Relationship="Self.FK__Assistanc__Prior__2B0A656D" FromRole="Assistance" ToRole="Priority" />
           <NavigationProperty Name="Contract" Relationship="Self.AssistanceContract" FromRole="Assistance" ToRole="Contract" />
           <NavigationProperty Name="Asset" Relationship="Self.AssitanceAssets" FromRole="Assistance" ToRole="Asset" />
         </EntityType>
@@ -415,18 +523,20 @@
           </Key>
           <Property Name="AssistanceDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AssistanceID" Type="Int32" />
-          <Property Name="Technician" Type="Int32" />
+          <Property Name="Login" Type="Int32" />
           <Property Name="Datetime" Type="DateTime" Precision="3" />
           <Property Name="Report" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Assis__797309D9" FromRole="AssistanceDetail" ToRole="Assistance" />
-          <NavigationProperty Name="Technicians" Relationship="Self.FK__Assistanc__Techn__7A672E12" FromRole="AssistanceDetail" ToRole="Technicians" />
+          <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Assis__2DE6D218" FromRole="AssistanceDetail" ToRole="Assistance" />
+          <NavigationProperty Name="SU01_Login" Relationship="Self.FK__Assistanc__Login__2EDAF651" FromRole="AssistanceDetail" ToRole="SU01_Login" />
+          <NavigationProperty Name="AssitanceStatus" Relationship="Self.FK__Assistanc__Statu__2FCF1A8A" FromRole="AssistanceDetail" ToRole="AssitanceStatus" />
         </EntityType>
         <EntityType Name="AssitanceStatus">
           <Key>
             <PropertyRef Name="Status" />
           </Key>
           <Property Name="Status" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Statu__04E4BC85" FromRole="AssitanceStatus" ToRole="Assistance" />
+          <NavigationProperty Name="AssistanceDetail" Relationship="Self.FK__Assistanc__Statu__2FCF1A8A" FromRole="AssitanceStatus" ToRole="AssistanceDetail" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -467,7 +577,7 @@
           <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Extension" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Custo__75A278F5" FromRole="Customers" ToRole="Assistance" />
+          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Custo__2A164134" FromRole="Customers" ToRole="Assistance" />
           <NavigationProperty Name="Process" Relationship="Self.FK__Process__Custome__68487DD7" FromRole="Customers" ToRole="Process" />
         </EntityType>
         <EntityType Name="Priority">
@@ -475,7 +585,7 @@
             <PropertyRef Name="Priority1" />
           </Key>
           <Property Name="Priority1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Prior__76969D2E" FromRole="Priority" ToRole="Assistance" />
+          <NavigationProperty Name="Assistance" Relationship="Self.FK__Assistanc__Prior__2B0A656D" FromRole="Priority" ToRole="Assistance" />
         </EntityType>
         <EntityType Name="Process">
           <Key>
@@ -490,6 +600,48 @@
           <NavigationProperty Name="Customers" Relationship="Self.FK__Process__Custome__68487DD7" FromRole="Process" ToRole="Customers" />
           <NavigationProperty Name="Technicians" Relationship="Self.FK__Process__Technic__693CA210" FromRole="Process" ToRole="Technicians" />
         </EntityType>
+        <EntityType Name="SU00_LoginType">
+          <Key>
+            <PropertyRef Name="LoginType" />
+          </Key>
+          <Property Name="LoginType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SU01_Login" Relationship="Self.FK__SU01_Logi__Login__17F790F9" FromRole="SU00_LoginType" ToRole="SU01_Login" />
+        </EntityType>
+        <EntityType Name="SU01_Login">
+          <Key>
+            <PropertyRef Name="LoginID" />
+          </Key>
+          <Property Name="LoginID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LoginUsername" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LoginPassword" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LoginPincode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoginDateEnd" Type="DateTime" Precision="3" />
+          <Property Name="LoginEnabled" Type="Int32" />
+          <Property Name="LoginDisplayName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LoginEmail" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LoginCellPhone" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LoginJobPosition" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AssistanceDetail" Relationship="Self.FK__Assistanc__Login__2EDAF651" FromRole="SU01_Login" ToRole="AssistanceDetail" />
+          <NavigationProperty Name="SU00_LoginType" Relationship="Self.FK__SU01_Logi__Login__17F790F9" FromRole="SU01_Login" ToRole="SU00_LoginType" />
+          <NavigationProperty Name="Technicians" Relationship="Self.FK__Technicia__Login__208CD6FA" FromRole="SU01_Login" ToRole="Technicians" />
+        </EntityType>
+        <EntityType Name="SU24_Authorizations">
+          <Key>
+            <PropertyRef Name="AuthTransaction" />
+          </Key>
+          <Property Name="AuthTransaction" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AuthDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SU25_Roles" Relationship="Self.SU26_RoleAuthorizations" FromRole="SU24_Authorizations" ToRole="SU25_Roles" />
+        </EntityType>
+        <EntityType Name="SU25_Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SU24_Authorizations" Relationship="Self.SU26_RoleAuthorizations" FromRole="SU25_Roles" ToRole="SU24_Authorizations" />
+        </EntityType>
         <EntityType Name="Technicians">
           <Key>
             <PropertyRef Name="TechnicianID" />
@@ -502,11 +654,10 @@
           <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="City" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Extension" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Login" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Passwd" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="AssistanceDetail" Relationship="Self.FK__Assistanc__Techn__7A672E12" FromRole="Technicians" ToRole="AssistanceDetail" />
+          <Property Name="LoginID" Type="Int32" />
           <NavigationProperty Name="Contract" Relationship="Self.FK__Contract__Techni__6D0D32F4" FromRole="Technicians" ToRole="Contract" />
           <NavigationProperty Name="Process" Relationship="Self.FK__Process__Technic__693CA210" FromRole="Technicians" ToRole="Process" />
+          <NavigationProperty Name="SU01_Login" Relationship="Self.FK__Technicia__Login__208CD6FA" FromRole="Technicians" ToRole="SU01_Login" />
         </EntityType>
         <Association Name="FK__ContractA__Asset__70DDC3D8">
           <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
@@ -520,7 +671,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assistanc__Assis__797309D9">
+        <Association Name="FK__Assistanc__Assis__2DE6D218">
           <End Role="Assistance" Type="Self.Assistance" Multiplicity="0..1" />
           <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -532,7 +683,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assistanc__Custo__75A278F5">
+        <Association Name="FK__Assistanc__Custo__2A164134">
           <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
           <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -544,7 +695,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assistanc__Prior__76969D2E">
+        <Association Name="FK__Assistanc__Prior__2B0A656D">
           <End Role="Priority" Type="Self.Priority" Multiplicity="0..1" />
           <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -556,27 +707,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Assistanc__Statu__04E4BC85">
+        <Association Name="FK__Assistanc__Login__2EDAF651">
+          <End Role="SU01_Login" Type="Self.SU01_Login" Multiplicity="0..1" />
+          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SU01_Login">
+              <PropertyRef Name="LoginID" />
+            </Principal>
+            <Dependent Role="AssistanceDetail">
+              <PropertyRef Name="Login" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Assistanc__Statu__2FCF1A8A">
           <End Role="AssitanceStatus" Type="Self.AssitanceStatus" Multiplicity="0..1" />
-          <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
+          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AssitanceStatus">
               <PropertyRef Name="Status" />
             </Principal>
-            <Dependent Role="Assistance">
-              <PropertyRef Name="Status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Assistanc__Techn__7A672E12">
-          <End Role="Technicians" Type="Self.Technicians" Multiplicity="0..1" />
-          <End Role="AssistanceDetail" Type="Self.AssistanceDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Technicians">
-              <PropertyRef Name="TechnicianID" />
-            </Principal>
             <Dependent Role="AssistanceDetail">
-              <PropertyRef Name="Technician" />
+              <PropertyRef Name="Status" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -640,6 +791,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__SU01_Logi__Login__17F790F9">
+          <End Role="SU00_LoginType" Type="Self.SU00_LoginType" Multiplicity="0..1" />
+          <End Role="SU01_Login" Type="Self.SU01_Login" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SU00_LoginType">
+              <PropertyRef Name="LoginType" />
+            </Principal>
+            <Dependent Role="SU01_Login">
+              <PropertyRef Name="LoginType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Technicia__Login__208CD6FA">
+          <End Role="SU01_Login" Type="Self.SU01_Login" Multiplicity="0..1" />
+          <End Role="Technicians" Type="Self.Technicians" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SU01_Login">
+              <PropertyRef Name="LoginID" />
+            </Principal>
+            <Dependent Role="Technicians">
+              <PropertyRef Name="LoginID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="AssistanceContract">
           <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
           <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
@@ -648,7 +823,11 @@
           <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
           <End Role="Assistance" Type="Self.Assistance" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="AssistanceManagerEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="SU26_RoleAuthorizations">
+          <End Role="SU24_Authorizations" Type="Self.SU24_Authorizations" Multiplicity="*" />
+          <End Role="SU25_Roles" Type="Self.SU25_Roles" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="AssistanceManagerEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Asset" EntityType="Self.Asset" />
           <EntitySet Name="Assistance" EntityType="Self.Assistance" />
           <EntitySet Name="AssistanceDetail" EntityType="Self.AssistanceDetail" />
@@ -658,29 +837,33 @@
           <EntitySet Name="Customers" EntityType="Self.Customers" />
           <EntitySet Name="Priority" EntityType="Self.Priority" />
           <EntitySet Name="Process" EntityType="Self.Process" />
+          <EntitySet Name="SU00_LoginType" EntityType="Self.SU00_LoginType" />
+          <EntitySet Name="SU01_Login" EntityType="Self.SU01_Login" />
+          <EntitySet Name="SU24_Authorizations" EntityType="Self.SU24_Authorizations" />
+          <EntitySet Name="SU25_Roles" EntityType="Self.SU25_Roles" />
           <EntitySet Name="Technicians" EntityType="Self.Technicians" />
           <AssociationSet Name="FK__ContractA__Asset__70DDC3D8" Association="Self.FK__ContractA__Asset__70DDC3D8">
             <End Role="Asset" EntitySet="Asset" />
             <End Role="ContractAssets" EntitySet="ContractAssets" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Assis__797309D9" Association="Self.FK__Assistanc__Assis__797309D9">
+          <AssociationSet Name="FK__Assistanc__Assis__2DE6D218" Association="Self.FK__Assistanc__Assis__2DE6D218">
             <End Role="Assistance" EntitySet="Assistance" />
             <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Custo__75A278F5" Association="Self.FK__Assistanc__Custo__75A278F5">
+          <AssociationSet Name="FK__Assistanc__Custo__2A164134" Association="Self.FK__Assistanc__Custo__2A164134">
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Assistance" EntitySet="Assistance" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Prior__76969D2E" Association="Self.FK__Assistanc__Prior__76969D2E">
+          <AssociationSet Name="FK__Assistanc__Prior__2B0A656D" Association="Self.FK__Assistanc__Prior__2B0A656D">
             <End Role="Priority" EntitySet="Priority" />
             <End Role="Assistance" EntitySet="Assistance" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Statu__04E4BC85" Association="Self.FK__Assistanc__Statu__04E4BC85">
-            <End Role="AssitanceStatus" EntitySet="AssitanceStatus" />
-            <End Role="Assistance" EntitySet="Assistance" />
+          <AssociationSet Name="FK__Assistanc__Login__2EDAF651" Association="Self.FK__Assistanc__Login__2EDAF651">
+            <End Role="SU01_Login" EntitySet="SU01_Login" />
+            <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__Assistanc__Techn__7A672E12" Association="Self.FK__Assistanc__Techn__7A672E12">
-            <End Role="Technicians" EntitySet="Technicians" />
+          <AssociationSet Name="FK__Assistanc__Statu__2FCF1A8A" Association="Self.FK__Assistanc__Statu__2FCF1A8A">
+            <End Role="AssitanceStatus" EntitySet="AssitanceStatus" />
             <End Role="AssistanceDetail" EntitySet="AssistanceDetail" />
           </AssociationSet>
           <AssociationSet Name="FK__Contract__Proces__6C190EBB" Association="Self.FK__Contract__Proces__6C190EBB">
@@ -703,6 +886,14 @@
             <End Role="Technicians" EntitySet="Technicians" />
             <End Role="Process" EntitySet="Process" />
           </AssociationSet>
+          <AssociationSet Name="FK__SU01_Logi__Login__17F790F9" Association="Self.FK__SU01_Logi__Login__17F790F9">
+            <End Role="SU00_LoginType" EntitySet="SU00_LoginType" />
+            <End Role="SU01_Login" EntitySet="SU01_Login" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Technicia__Login__208CD6FA" Association="Self.FK__Technicia__Login__208CD6FA">
+            <End Role="SU01_Login" EntitySet="SU01_Login" />
+            <End Role="Technicians" EntitySet="Technicians" />
+          </AssociationSet>
           <AssociationSet Name="AssistanceContract" Association="Self.AssistanceContract">
             <End Role="Assistance" EntitySet="Assistance" />
             <End Role="Contract" EntitySet="Contract" />
@@ -711,13 +902,17 @@
             <End Role="Asset" EntitySet="Asset" />
             <End Role="Assistance" EntitySet="Assistance" />
           </AssociationSet>
+          <AssociationSet Name="SU26_RoleAuthorizations" Association="Self.SU26_RoleAuthorizations">
+            <End Role="SU24_Authorizations" EntitySet="SU24_Authorizations" />
+            <End Role="SU25_Roles" EntitySet="SU25_Roles" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AssistanceManagerModelStoreContainer" CdmEntityContainer="AssistanceManagerEntities">
+        <EntityContainerMapping StorageEntityContainer="AssistanceManagerModelStoreContainer" CdmEntityContainer="AssistanceManagerEntities1">
           <EntitySetMapping Name="Asset">
             <EntityTypeMapping TypeName="AssistanceManagerModel.Asset">
               <MappingFragment StoreEntitySet="Asset">
@@ -733,10 +928,8 @@
               <MappingFragment StoreEntitySet="Assistance">
                 <ScalarProperty Name="AssistanceID" ColumnName="AssistanceID" />
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
-                <ScalarProperty Name="Report" ColumnName="Report" />
                 <ScalarProperty Name="Customer" ColumnName="Customer" />
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -745,9 +938,10 @@
               <MappingFragment StoreEntitySet="AssistanceDetail">
                 <ScalarProperty Name="AssistanceDetailID" ColumnName="AssistanceDetailID" />
                 <ScalarProperty Name="AssistanceID" ColumnName="AssistanceID" />
-                <ScalarProperty Name="Technician" ColumnName="Technician" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Datetime" ColumnName="Datetime" />
                 <ScalarProperty Name="Report" ColumnName="Report" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -812,6 +1006,46 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SU00_LoginType">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.SU00_LoginType">
+              <MappingFragment StoreEntitySet="SU00_LoginType">
+                <ScalarProperty Name="LoginType" ColumnName="LoginType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SU01_Login">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.SU01_Login">
+              <MappingFragment StoreEntitySet="SU01_Login">
+                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+                <ScalarProperty Name="LoginType" ColumnName="LoginType" />
+                <ScalarProperty Name="LoginUsername" ColumnName="LoginUsername" />
+                <ScalarProperty Name="LoginPassword" ColumnName="LoginPassword" />
+                <ScalarProperty Name="LoginPincode" ColumnName="LoginPincode" />
+                <ScalarProperty Name="LoginDateEnd" ColumnName="LoginDateEnd" />
+                <ScalarProperty Name="LoginEnabled" ColumnName="LoginEnabled" />
+                <ScalarProperty Name="LoginDisplayName" ColumnName="LoginDisplayName" />
+                <ScalarProperty Name="LoginEmail" ColumnName="LoginEmail" />
+                <ScalarProperty Name="LoginCellPhone" ColumnName="LoginCellPhone" />
+                <ScalarProperty Name="LoginJobPosition" ColumnName="LoginJobPosition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SU24_Authorizations">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.SU24_Authorizations">
+              <MappingFragment StoreEntitySet="SU24_Authorizations">
+                <ScalarProperty Name="AuthTransaction" ColumnName="AuthTransaction" />
+                <ScalarProperty Name="AuthDescription" ColumnName="AuthDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SU25_Roles">
+            <EntityTypeMapping TypeName="AssistanceManagerModel.SU25_Roles">
+              <MappingFragment StoreEntitySet="SU25_Roles">
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Technicians">
             <EntityTypeMapping TypeName="AssistanceManagerModel.Technicians">
               <MappingFragment StoreEntitySet="Technicians">
@@ -823,8 +1057,7 @@
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="Extension" ColumnName="Extension" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Passwd" ColumnName="Passwd" />
+                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -842,6 +1075,14 @@
             </EndProperty>
             <EndProperty Name="Assistance">
               <ScalarProperty Name="AssistanceID" ColumnName="AssistanceID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="SU26_RoleAuthorizations" TypeName="AssistanceManagerModel.SU26_RoleAuthorizations" StoreEntitySet="SU26_RoleAuthorizations">
+            <EndProperty Name="SU24_Authorizations">
+              <ScalarProperty Name="AuthTransaction" ColumnName="AuthTransaction" />
+            </EndProperty>
+            <EndProperty Name="SU25_Roles">
+              <ScalarProperty Name="RoleID" ColumnName="RoleID" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

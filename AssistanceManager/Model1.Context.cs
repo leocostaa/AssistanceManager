@@ -13,10 +13,10 @@ namespace AssistanceManager
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AssistanceManagerEntities : DbContext
+    public partial class AssistanceManagerEntities1 : DbContext
     {
-        public AssistanceManagerEntities()
-            : base("name=AssistanceManagerEntities")
+        public AssistanceManagerEntities1()
+            : base("name=AssistanceManagerEntities1")
         {
         }
     
@@ -34,6 +34,10 @@ namespace AssistanceManager
         public virtual DbSet<Customers> Customers { get; set; }
         public virtual DbSet<Priority> Priority { get; set; }
         public virtual DbSet<Process> Process { get; set; }
+        public virtual DbSet<SU00_LoginType> SU00_LoginType { get; set; }
+        public virtual DbSet<SU01_Login> SU01_Login { get; set; }
+        public virtual DbSet<SU24_Authorizations> SU24_Authorizations { get; set; }
+        public virtual DbSet<SU25_Roles> SU25_Roles { get; set; }
         public virtual DbSet<Technicians> Technicians { get; set; }
     }
 }

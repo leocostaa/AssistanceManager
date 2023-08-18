@@ -24,16 +24,13 @@ namespace AssistanceManager
     
         public int AssistanceID { get; set; }
         public Nullable<System.DateTime> DateTime { get; set; }
-        public string Report { get; set; }
         public Nullable<int> Customer { get; set; }
         public string Priority { get; set; }
-        public string Status { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssistanceDetail> AssistanceDetail { get; set; }
         public virtual Customers Customers { get; set; }
         public virtual Priority Priority1 { get; set; }
-        public virtual AssitanceStatus AssitanceStatus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contract> Contract { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

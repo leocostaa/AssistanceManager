@@ -39,26 +39,36 @@
     .main {
          margin-left: 200px; 
     }
-    .spaced{
+    .spacedtop{
         font-size: 100px;
         padding-bottom: 200px;
-        
     }
+
+    .spacedbottom{
+        
+        padding-top: 350px;
+    }
+
+    
 
 
   </style>
 </head>
 <body>
     <div class="sidenav">
-        <div class="spaced">
+        <div class="spacedtop">
             @Html.ActionLink("Assistance Manager", "Index", "Home")
         </div>
-        
+
         @Html.ActionLink("Assets", "Index", "Assets")
-        
+
         @Html.ActionLink("Pedidos de Assistência", "Index", "Assistances")
-        
+
         @Html.ActionLink("Contratos", "Index", "Contracts")
+
+        <div class="spacedbottom">
+           
+        </div>
     </div>
         
     
@@ -66,7 +76,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Alves Inovação </p>
+            <p>&copy;<img  src="~/Images/aisaisais.png" height="30px" width="220px" /> </p>
         </footer>
     </div>
 

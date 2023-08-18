@@ -12,12 +12,12 @@ namespace AssistanceManager.Controllers
 {
     public class AssistancesController : Controller
     {
-        private AssistanceManagerEntities db = new AssistanceManagerEntities();
+        private AssistanceManagerEntities1 db = new AssistanceManagerEntities1();
 
         // GET: Assistances
         public ActionResult Index()
         {
-            var assistance = db.Assistance.Include(a => a.Customers).Include(a => a.Priority1).Include(a => a.AssitanceStatus);
+            var assistance = db.Assistance.Include(a => a.Customers).Include(a => a.Priority1);
             return View(assistance.ToList());
         }
 
@@ -41,7 +41,6 @@ namespace AssistanceManager.Controllers
         {
             ViewBag.Customer = new SelectList(db.Customers, "CustomerID", "Name");
             ViewBag.Priority = new SelectList(db.Priority, "Priority1", "Priority1");
-            ViewBag.Status = new SelectList(db.AssitanceStatus, "Status", "Status");
             return View();
         }
 
@@ -50,7 +49,7 @@ namespace AssistanceManager.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AssistanceID,DateTime,Report,Customer,Priority,Status")] Assistance assistance)
+        public ActionResult Create([Bind(Include = "AssistanceID,DateTime,Customer,Priority")] Assistance assistance)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +60,6 @@ namespace AssistanceManager.Controllers
 
             ViewBag.Customer = new SelectList(db.Customers, "CustomerID", "Name", assistance.Customer);
             ViewBag.Priority = new SelectList(db.Priority, "Priority1", "Priority1", assistance.Priority);
-            ViewBag.Status = new SelectList(db.AssitanceStatus, "Status", "Status", assistance.Status);
             return View(assistance);
         }
 
@@ -79,7 +77,6 @@ namespace AssistanceManager.Controllers
             }
             ViewBag.Customer = new SelectList(db.Customers, "CustomerID", "Name", assistance.Customer);
             ViewBag.Priority = new SelectList(db.Priority, "Priority1", "Priority1", assistance.Priority);
-            ViewBag.Status = new SelectList(db.AssitanceStatus, "Status", "Status", assistance.Status);
             return View(assistance);
         }
 
@@ -88,7 +85,7 @@ namespace AssistanceManager.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AssistanceID,DateTime,Report,Customer,Priority,Status")] Assistance assistance)
+        public ActionResult Edit([Bind(Include = "AssistanceID,DateTime,Customer,Priority")] Assistance assistance)
         {
             if (ModelState.IsValid)
             {
@@ -98,7 +95,6 @@ namespace AssistanceManager.Controllers
             }
             ViewBag.Customer = new SelectList(db.Customers, "CustomerID", "Name", assistance.Customer);
             ViewBag.Priority = new SelectList(db.Priority, "Priority1", "Priority1", assistance.Priority);
-            ViewBag.Status = new SelectList(db.AssitanceStatus, "Status", "Status", assistance.Status);
             return View(assistance);
         }
 

@@ -12,17 +12,17 @@ namespace AssistanceManager
     using System;
     using System.Collections.Generic;
     
-    public partial class AssitanceStatus
+    public partial class SU00_LoginType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AssitanceStatus()
+        public SU00_LoginType()
         {
-            this.AssistanceDetail = new HashSet<AssistanceDetail>();
+            this.SU01_Login = new HashSet<SU01_Login>();
         }
     
-        public string Status { get; set; }
+        public string LoginType { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AssistanceDetail> AssistanceDetail { get; set; }
+        public virtual ICollection<SU01_Login> SU01_Login { get; set; }
     }
 }

@@ -17,7 +17,6 @@ namespace AssistanceManager
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Technicians()
         {
-            this.AssistanceDetail = new HashSet<AssistanceDetail>();
             this.Contract = new HashSet<Contract>();
             this.Process = new HashSet<Process>();
         }
@@ -30,14 +29,12 @@ namespace AssistanceManager
         public string Address { get; set; }
         public string City { get; set; }
         public string Extension { get; set; }
-        public string Login { get; set; }
-        public string Passwd { get; set; }
+        public Nullable<int> LoginID { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AssistanceDetail> AssistanceDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contract> Contract { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Process> Process { get; set; }
+        public virtual SU01_Login SU01_Login { get; set; }
     }
 }

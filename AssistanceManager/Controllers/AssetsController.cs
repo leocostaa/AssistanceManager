@@ -12,7 +12,7 @@ namespace AssistanceManager.Controllers
 {
     public class AssetsController : Controller
     {
-        private AssistanceManagerEntities db = new AssistanceManagerEntities();
+        private AssistanceManagerEntities1 db = new AssistanceManagerEntities1();
 
         // GET: Assets
         public ActionResult Index()
