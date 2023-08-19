@@ -12,7 +12,7 @@ namespace AssistanceManager.Controllers
 {
     public class ContractsController : Controller
     {
-        private AssistanceManagerEntities1 db = new AssistanceManagerEntities1();
+        private AssistanceManagerEntities2 db = new AssistanceManagerEntities2();
 
         // GET: Contracts
         public ActionResult Index()

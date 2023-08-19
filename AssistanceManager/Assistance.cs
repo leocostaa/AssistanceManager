@@ -26,6 +26,7 @@ namespace AssistanceManager
         public Nullable<System.DateTime> DateTime { get; set; }
         public Nullable<int> Customer { get; set; }
         public string Priority { get; set; }
+        public string Subject { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssistanceDetail> AssistanceDetail { get; set; }

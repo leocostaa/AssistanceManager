@@ -13,10 +13,10 @@ namespace AssistanceManager
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AssistanceManagerEntities1 : DbContext
+    public partial class AssistanceManagerEntities2 : DbContext
     {
-        public AssistanceManagerEntities1()
-            : base("name=AssistanceManagerEntities1")
+        public AssistanceManagerEntities2()
+            : base("name=AssistanceManagerEntities2")
         {
         }
     

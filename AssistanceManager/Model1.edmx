@@ -22,6 +22,7 @@
           <Property Name="DateTime" Type="datetime" />
           <Property Name="Customer" Type="int" />
           <Property Name="Priority" Type="varchar" MaxLength="200" />
+          <Property Name="Subject" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="AssistanceContract">
           <Key>
@@ -511,6 +512,7 @@
           <Property Name="DateTime" Type="DateTime" Precision="3" />
           <Property Name="Customer" Type="Int32" />
           <Property Name="Priority" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Subject" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="AssistanceDetail" Relationship="Self.FK__Assistanc__Assis__2DE6D218" FromRole="Assistance" ToRole="AssistanceDetail" />
           <NavigationProperty Name="Customers" Relationship="Self.FK__Assistanc__Custo__2A164134" FromRole="Assistance" ToRole="Customers" />
           <NavigationProperty Name="Priority1" Relationship="Self.FK__Assistanc__Prior__2B0A656D" FromRole="Assistance" ToRole="Priority" />
@@ -827,7 +829,7 @@
           <End Role="SU24_Authorizations" Type="Self.SU24_Authorizations" Multiplicity="*" />
           <End Role="SU25_Roles" Type="Self.SU25_Roles" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="AssistanceManagerEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="AssistanceManagerEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Asset" EntityType="Self.Asset" />
           <EntitySet Name="Assistance" EntityType="Self.Assistance" />
           <EntitySet Name="AssistanceDetail" EntityType="Self.AssistanceDetail" />
@@ -912,7 +914,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AssistanceManagerModelStoreContainer" CdmEntityContainer="AssistanceManagerEntities1">
+        <EntityContainerMapping StorageEntityContainer="AssistanceManagerModelStoreContainer" CdmEntityContainer="AssistanceManagerEntities2">
           <EntitySetMapping Name="Asset">
             <EntityTypeMapping TypeName="AssistanceManagerModel.Asset">
               <MappingFragment StoreEntitySet="Asset">
@@ -930,6 +932,7 @@
                 <ScalarProperty Name="DateTime" ColumnName="DateTime" />
                 <ScalarProperty Name="Customer" ColumnName="Customer" />
                 <ScalarProperty Name="Priority" ColumnName="Priority" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

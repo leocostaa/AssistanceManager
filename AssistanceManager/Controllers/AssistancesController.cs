@@ -12,7 +12,7 @@ namespace AssistanceManager.Controllers
 {
     public class AssistancesController : Controller
     {
-        private AssistanceManagerEntities1 db = new AssistanceManagerEntities1();
+        private AssistanceManagerEntities2 db = new AssistanceManagerEntities2();
 
         // GET: Assistances
         public ActionResult Index()
@@ -49,7 +49,7 @@ namespace AssistanceManager.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AssistanceID,DateTime,Customer,Priority")] Assistance assistance)
+        public ActionResult Create([Bind(Include = "AssistanceID,DateTime,Customer,Priority,Subject")] Assistance assistance)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace AssistanceManager.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AssistanceID,DateTime,Customer,Priority")] Assistance assistance)
+        public ActionResult Edit([Bind(Include = "AssistanceID,DateTime,Customer,Priority,Subject")] Assistance assistance)
         {
             if (ModelState.IsValid)
             {
